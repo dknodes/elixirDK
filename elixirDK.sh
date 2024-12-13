@@ -154,6 +154,10 @@ handle_update_node() {
     ENV_VALUE="$3"
     PORT="$4"
 
+    #Get current ENV
+    ENV_DIR="$HOME/elixirDK"
+    ENV_FILE="$ENV_DIR/.env"
+
     echo -e "${BLUE}🛑 Stopping node ${NODE_NAME}...${RESET}"
     docker stop "$NODE_NAME" || echo -e "${YELLOW}⚠️ Node ${NODE_NAME} is already stopped.${RESET}"
 
@@ -167,6 +171,7 @@ handle_update_node() {
     docker run -d \
         --name "$NODE_NAME" \
         --platform linux/amd64 \
+        --env-file "$ENV_FILE" \
         --env ENV="$ENV_VALUE" \
         -p "$PORT" \
         --restart unless-stopped \
